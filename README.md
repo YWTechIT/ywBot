@@ -9,6 +9,9 @@
 - 프로그램: `VS_Code`
 
 ### ❏ 작동 기능
+- 기본API: <a href='https://kkotbot-docs.kro.kr/'>KakaoTalk bot Docs</a>
+
+### ❏ 작동 기능
 - 가위바위보
 - 실시간 지하철 현황 (<a href='https://data.seoul.go.kr/dataList/OA-15799/A/1/datasetView.do'>서울시 열린데이터 광장 - 지하철 실시간 도착정보 API</a>) (예정)
 - 실시간 따릉이 현황(예정)
