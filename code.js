@@ -15,13 +15,35 @@ function response(room, msg, sender, isGroupChat, replier, imageDB) {
         replier.reply('Made by 영우\n\n📍 기능 ' + allSee + '\n\n👉🏽 인사\n👉🏽 가위바위보\n👉🏽 날씨\n👉🏽 실시간 지하철 정보\n👉🏽 번역(koToEn, enToKo) 기능');
     }
 
+    if (msg == '/명령어') {
+        replier.reply('다음과 같이 입력하면 영우봇이 대답을 해줍니다.\n\n' + allSee + '\n\n👉🏽 안녕 \n👉🏽 가위 / 바위 / 보 \n👉🏽 /모든영화\n👉🏽 /현재영화\n👉🏽 /영어 hello\n👉🏽 /영어 안녕');
+    }
+
     if (msg == '/패치노트') {
-        replier.reply('📍 패치노트 ' + allSee + '\n\n20201218 ver.1 \n\n👉🏽 기능, 패치노트\n\n20201219 ver.1.1 \n\n👉🏽 기능, 패치노트,')
+        replier.reply('📍 패치노트 ' + allSee + '\n\n20201218 ver.1 \n\n👉🏽 기능, 패치노트추가 \n\n20201219 ver.1.1 \n\n👉🏽 가위바위보, 번역추가\n\n20201222 ver.1.2 \n\n👉🏽 네이버 실시간 모든 / 현재상영 영화 순위')
     }
 
     if (msg.indexOf('안녕') == 0) {
         replier.reply('안녕하세요!' + sender + '님! 저는 영우봇입니다. :)\n 만나서 반가워요!')
     }
+
+    // 실시간 지하철 API
+    if (msg.indexOf('/지하철') == 0) {
+        let string = msg.substring(3);
+        let apiKey = '486966706a6162633732727757474b';
+        let subwayData = Utils.getWebText('http://swopenapi.seoul.go.kr/api/subway/' + apiKey + '/json/realtimeStationArrival/0/10/' + encodeURI(string));
+        let json = subwayData.replace(/(<([^>]+)>)/ig, '');
+        replier.reply(subwayData)
+
+        // [ string역 실시간 도착정보 ]
+        // recptnDt: "2020-12-23 17:45:39.0"
+        // trainLineNm: "청량리행 - 세류방면"
+        // subwayHeading: 오른쪽
+        // 도착정보(arvlMsg2): 병점 진입
+        // 현재위치(arvlMsg3): 병점 
+
+    }
+
 
     // // 실시간검색어(실시간 순위가 `parsing` 되지 않아 미완성)
     // if (msg.indexOf('/실검') == 0) {
@@ -62,7 +84,7 @@ function response(room, msg, sender, isGroupChat, replier, imageDB) {
         replier.reply('[ 📍 ' + ymd + '기준 모든영화 평점순위(네이버) ] \n\n' + result.trim());
     }
 
-    // 네이버 현재상영영화 평점순위
+    // 네이버 현재 상영영화 평점순위
     if (msg.indexOf('/현재상영영화') == 0) {
         let parsing = org.jsoup.Jsoup.connect('https://movie.naver.com/movie/sdb/rank/rmovie.nhn?sel=cur&date').get();
         let ymds = datas.select('p.r_date') + '';
@@ -94,7 +116,7 @@ function response(room, msg, sender, isGroupChat, replier, imageDB) {
     }
 
     if (msg.indexOf('/한글') == 0) {
-        let replace = msg.replace('/번역', '');
+        let replace = msg.replace('/한글', '');
         let enToKo = Api.papagoTranslate('en', 'ko', replace);
         replier.reply(enToKo);
     }
