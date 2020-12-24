@@ -9,8 +9,11 @@
 // 개인 채팅방
 
 let allSee = new Array(1000).join(String.fromCharCode(847));
+let readCount = 0;
 
 function response(room, msg, sender, isGroupChat, replier, imageDB) {
+    readCount = readCount + 1;
+
     if (msg == '/기능') {
         replier.reply('Made by 영우\n\n📍 기능 ' + allSee + '\n\n👉🏽 인사\n👉🏽 가위바위보\n👉🏽 날씨\n👉🏽 실시간 지하철 정보\n👉🏽 번역(koToEn, enToKo) 기능');
     }
@@ -29,113 +32,147 @@ function response(room, msg, sender, isGroupChat, replier, imageDB) {
 
     // 실시간 지하철 API
     if (msg.indexOf('/지하철') == 0) {
-        let string = msg.substring(3);
+        let string = msg.substring(5);
         let apiKey = '486966706a6162633732727757474b';
-        let subwayData = Utils.getWebText('http://swopenapi.seoul.go.kr/api/subway/' + apiKey + '/json/realtimeStationArrival/0/10/' + encodeURI(string));
-        let json = subwayData.replace(/(<([^>]+)>)/ig, '');
-        replier.reply(subwayData)
+        let subwayData = JSON.parse(Jsoup.connect('http://swopenapi.seoul.go.kr/api/subway/' + apiKey + '/json/realtimeStationArrival/0/5/' + encodeURI(string)).ignoreContentType(true).get().text());
 
-        // [ string역 실시간 도착정보 ]
-        // recptnDt: "2020-12-23 17:45:39.0"
-        // trainLineNm: "청량리행 - 세류방면"
-        // subwayHeading: 오른쪽
-        // 도착정보(arvlMsg2): 병점 진입
-        // 현재위치(arvlMsg3): 병점 
-
-    }
-
-
-    // // 실시간검색어(실시간 순위가 `parsing` 되지 않아 미완성)
-    // if (msg.indexOf('/실검') == 0) {
-
-    //     let data = Utils.getWebText('https://datalab.naver.com/keyword/realtimeList.naver?where=main');
-    //     let twenTy = Utils.parse('https://datalab.naver.com/keyword/realtimeList.naver?age=20s&where=main');
-    //     replier.reply(twnTy);
-
-    //     // 날짜, 시간 알려주는 기능
-    //     let ymdTimeSplit = data.split('data-time="')[1].split('"')[0];
-    //     let ymdSplit = ymdTimeSplit.split('T')[0];
-    //     let timeSplit = ymdTimeSplit.split('T')[1];
-    //     let ymdTime = ymdSplit + ' ' + timeSplit + ' 기준 네이버 실시간검색어 입니다.';
-    //     replier.reply(ymdTime);
-    // }
-
-    // 네이버 모든영화 평점순위
-    if (msg.indexOf('/모든영화') == 0) {
-        let parsing = org.jsoup.Jsoup.connect('https://movie.naver.com/movie/sdb/rank/rmovie.nhn?sel=pnt&date').get();
-        let ymds = datas.select('p.r_date') + '';
-        let ymd = ymds.replace(/(<([^>]+)>)/ig, '');
-
-        let data = parsing.select('#old_content > table > tbody > tr')
-
-        let ranks = data.select('td.title > div > a') + '';
-        ranks = ranks.replace(/(<([^>]+)>)/ig, '');
-        let rank = ranks.split('\n');
-
-        let stars = data.select('td.point') + '';
-        stars = stars.replace(/<[^>]+>/g, '');
-        let star = stars.split('\n');
-
-        let result = '';
-        for (let i = 0; i < 10; i++) {
-            result = result + (i + 1) + "위: " + rank[i] + ' ' + star[i] + '\n';
-        }
-
-        replier.reply('[ 📍 ' + ymd + '기준 모든영화 평점순위(네이버) ] \n\n' + result.trim());
-    }
-
-    // 네이버 현재 상영영화 평점순위
-    if (msg.indexOf('/현재상영영화') == 0) {
-        let parsing = org.jsoup.Jsoup.connect('https://movie.naver.com/movie/sdb/rank/rmovie.nhn?sel=cur&date').get();
-        let ymds = datas.select('p.r_date') + '';
-        let ymd = ymds.replace(/(<([^>]+)>)/ig, '');
-
-        let data = parsing.select('#old_content > table > tbody > tr')
-
-        let ranks = data.select('td.title > div > a') + '';
-        ranks = ranks.replace(/(<([^>]+)>)/ig, '');
-        let rank = ranks.split('\n');
-
-        let stars = data.select('td.point') + '';
-        stars = stars.replace(/<[^>]+>/g, '');
-        let star = stars.split('\n');
-
-        let result = '';
-        for (let i = 0; i < 10; i++) {
-            result = result + (i + 1) + "위: " + rank[i] + ' ' + star[i] + '\n';
-        }
-
-        replier.reply('[ 📍 ' + ymd + '기준 현재상영영화 평점순위(네이버) ] \n\n' + result.trim());
-    }
-
-    // 번역
-    if (msg.indexOf('/영어') == 0) {
-        let replace = msg.replace('/영어', '');
-        let koToEn = Api.papagoTranslate('ko', 'en', replace);
-        replier.reply(koToEn);
-    }
-
-    if (msg.indexOf('/한글') == 0) {
-        let replace = msg.replace('/한글', '');
-        let enToKo = Api.papagoTranslate('en', 'ko', replace);
-        replier.reply(enToKo);
-    }
-
-
-    // 가위바위보
-    if (msg == '가위' || msg == '바위' || msg == '보') {
-        let RSP = ['가위', '바위', '보'];
-        RSP_bot = RSP[Math.floor(Math.random() * 3)];
-        replier.reply(RSP_bot);
-
-        if (msg === RSP_bot) {
-            replier.reply('비겼습니다.');
-        } else if (msg == '가위' && RSP_bot == '바위', msg == '보' && RSP_bot == '가위', msg == '바위' && RSP_bot == '보') {
-            replier.reply(sender + '님이 졌습니다.');
+        if (subwayData == 'undefined') {
+            replier.reply('올바른 형식이 아닙니다.')
         } else {
-            replier.reply(sender + '님이 이겼습니다.');
+            let datas = subwayData['realtimeArrivalList'];
+
+            for (let i = 0; i < datas.length; i++) {
+                let data = datas[i];
+                let time = data['recptnDt'].split('.')[0];
+                let direct = data['trainLineNm'];
+                let arrive1 = data['arvlMsg2'];
+                let arrive2 = data['arvlMsg3'];
+                let result = JSON.stringify(time) + '기준\n' + string + '역 실시간 지하철 정보입니다. \n\n방향:' + JSON.stringify(direct) + '\n도착정보: ' + JSON.stringify(arrive1) + '\n현재위치: ' + JSON.stringify(arrive2); 
+                replier.reply(result);
+            }
+            
         }
     }
+
+
+    replier.reply(data);
+
+    // parse를 한다 -> {}를 씌운다
+    // jsonify를 한다 -> \n을 씌운다
+
+    // [ string역 실시간 도착정보 ]
+    // recptnDt: "2020-12-23 17:45:39.0"
+    // trainLineNm: "청량리행 - 세류방면"
+    // subwayHeading: 오른쪽
+    // 도착정보(arvlMsg2): 병점 진입
+    // 현재위치(arvlMsg3): 병점 
+
+}
+
+
+// // 실시간검색어(실시간 순위가 `parsing` 되지 않아 미완성)
+// if (msg.indexOf('/실검') == 0) {
+
+//     let data = Utils.getWebText('https://datalab.naver.com/keyword/realtimeList.naver?where=main');
+//     let twenTy = Utils.parse('https://datalab.naver.com/keyword/realtimeList.naver?age=20s&where=main');
+//     replier.reply(twnTy);
+
+//     // 날짜, 시간 알려주는 기능
+//     let ymdTimeSplit = data.split('data-time="')[1].split('"')[0];
+//     let ymdSplit = ymdTimeSplit.split('T')[0];
+//     let timeSplit = ymdTimeSplit.split('T')[1];
+//     let ymdTime = ymdSplit + ' ' + timeSplit + ' 기준 네이버 실시간검색어 입니다.';
+//     replier.reply(ymdTime);
+// }
+
+// 메세지가 300개면 자동으로 읽음 처리
+if (readCount == 300) {
+    replier.reply('메세지를 자동으로 읽습니다.');
+    readCount = 0;
+}
+
+// 네이버 모든영화 평점순위
+if (msg.indexOf('/모든영화') == 0) {
+    let parsing = org.jsoup.Jsoup.connect('https://movie.naver.com/movie/sdb/rank/rmovie.nhn?sel=pnt&date').get();
+    let ymds = datas.select('p.r_date') + '';
+    let ymd = ymds.replace(/(<([^>]+)>)/ig, '');
+
+    let data = parsing.select('#old_content > table > tbody > tr')
+
+    let ranks = data.select('td.title > div > a') + '';
+    ranks = ranks.replace(/(<([^>]+)>)/ig, '');
+    let rank = ranks.split('\n');
+
+    let stars = data.select('td.point') + '';
+    stars = stars.replace(/<[^>]+>/g, '');
+    let star = stars.split('\n');
+
+    let result = '';
+    for (let i = 0; i < 10; i++) {
+        result = result + (i + 1) + "위: " + rank[i] + ' ' + star[i] + '\n\n';
+    }
+
+    replier.reply('[ 📍 ' + ymd + '기준 모든영화 평점순위(네이버) ] \n\n' + result.trim());
+}
+
+// 네이버 현재 상영영화 평점순위
+if (msg.indexOf('/현재상영영화') == 0) {
+    let parsing = org.jsoup.Jsoup.connect('https://movie.naver.com/movie/sdb/rank/rmovie.nhn?sel=cur&date').get();
+    let ymds = datas.select('p.r_date') + '';
+    let ymd = ymds.replace(/(<([^>]+)>)/ig, '');
+
+    let data = parsing.select('#old_content > table > tbody > tr')
+
+    let ranks = data.select('td.title > div > a') + '';
+    ranks = ranks.replace(/(<([^>]+)>)/ig, '');
+    let rank = ranks.split('\n');
+
+    let stars = data.select('td.point') + '';
+    stars = stars.replace(/<[^>]+>/g, '');
+    let star = stars.split('\n');
+
+    let result = '';
+    for (let i = 0; i < 10; i++) {
+        result = result + (i + 1) + "위: " + rank[i] + ' ' + star[i] + '\n';
+    }
+
+    replier.reply('[ 📍 ' + ymd + '기준 현재상영영화 평점순위(네이버) ] \n\n' + result.trim());
+}
+
+// 번역
+if (msg.indexOf('/영어') == 0) {
+    let replace = msg.replace('/영어', '');
+    let koToEn = Api.papagoTranslate('ko', 'en', replace);
+    replier.reply(koToEn);
+}
+
+if (msg.indexOf('/일어') == 0) {
+    let replace = msg.replace('/일어', '');
+    let koToJa = Api.papagoTranslate('ko', 'ja', replace);
+    replier.reply(koToJa);
+}
+
+if (msg.indexOf('/한글') == 0) {
+    let replace = msg.replace('/한글', '');
+    let enToKo = Api.papagoTranslate('en', 'ko', replace);
+    replier.reply(enToKo);
+}
+
+
+// 가위바위보
+if (msg == '가위' || msg == '바위' || msg == '보') {
+    let RSP = ['가위', '바위', '보'];
+    RSP_bot = RSP[Math.floor(Math.random() * 3)];
+    replier.reply(RSP_bot);
+
+    if (msg === RSP_bot) {
+        replier.reply('비겼습니다.');
+    } else if (msg == '가위' && RSP_bot == '바위', msg == '보' && RSP_bot == '가위', msg == '바위' && RSP_bot == '보') {
+        replier.reply(sender + '님이 졌습니다.');
+    } else {
+        replier.reply(sender + '님이 이겼습니다.');
+    }
+}
 }
 
 // 그룹 채팅방
