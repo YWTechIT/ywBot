@@ -23,14 +23,14 @@ function response(room, msg, sender, isGroupChat, replier, imageDB) {
     }
 
     if (msg == '/패치노트') {
-        replier.reply('📍 패치노트 ' + allSee + '\n\n20201218 ver.1 \n\n👉🏽 기능, 패치노트추가 \n\n20201219 ver.1.1 \n\n👉🏽 가위바위보, 번역추가\n\n20201222 ver.1.2 \n\n👉🏽 네이버 실시간 모든 / 현재상영 영화 순위')
+        replier.reply('📍 패치노트 ' + allSee + '\n\n20201218 ver.1 \n\n👉🏽 기능, 패치노트추가 \n\n20201219 ver.1.1 \n\n👉🏽 가위바위보, 번역추가\n\n20201222 ver.1.2 \n\n👉🏽 네이버 실시간 모든 / 현재상영 영화 순위\n\n20201224 ver.1.3 \n\n👉🏽 실시간 지하철 API 연동 ')
     }
 
     if (msg.indexOf('안녕') == 0) {
         replier.reply('안녕하세요!' + sender + '님! 저는 영우봇입니다. :)\n 만나서 반가워요!')
     }
 
-    // 실시간 지하철 API
+    // 실시간 지하철 APIxw
     if (msg.indexOf('/지하철') == 0) {
         let string = msg.substring(5);
         let apiKey = '486966706a6162633732727757474b';
@@ -53,10 +53,6 @@ function response(room, msg, sender, isGroupChat, replier, imageDB) {
             
         }
     }
-
-
-    replier.reply(data);
-
     // parse를 한다 -> {}를 씌운다
     // jsonify를 한다 -> \n을 씌운다
 
@@ -66,8 +62,6 @@ function response(room, msg, sender, isGroupChat, replier, imageDB) {
     // subwayHeading: 오른쪽
     // 도착정보(arvlMsg2): 병점 진입
     // 현재위치(arvlMsg3): 병점 
-
-}
 
 
 // // 실시간검색어(실시간 순위가 `parsing` 되지 않아 미완성)
