@@ -12,8 +12,7 @@ let allSee = new Array(1000).join(String.fromCharCode(847));
 let readCount = 0;
 
 function response(room, msg, sender, isGroupChat, replier, imageDB) {
-    readCount = readCount + 1;
-
+    
     if (msg == '/기능') {
         replier.reply('Made by 영우\n\n📍 기능 ' + allSee + '\n\n👉🏽 인사\n👉🏽 가위바위보\n👉🏽 실시간 지하철 정보\n👉🏽 번역(영어, 일본어)\n👉🏽 현재상영/모든영화 평점순위 기능');
     }
@@ -23,11 +22,16 @@ function response(room, msg, sender, isGroupChat, replier, imageDB) {
     }
 
     if (msg == '/패치노트') {
-        replier.reply('📍 패치노트 ' + allSee + '\n\n20201218 ver.1 \n\n👉🏽 기능, 패치노트추가 \n\n20201219 ver.1.1 \n\n👉🏽 가위바위보, 번역추가\n\n20201222 ver.1.2 \n\n👉🏽 네이버 실시간 모든 / 현재상영 영화 순위\n\n20201224 ver.1.3 \n\n👉🏽 실시간 지하철 API 연동 ')
+        replier.reply('📍 패치노트 ' + allSee + '\n\n20201218 ver.1 \n\n👉🏽 기능, 패치노트추가 \n\n20201219 ver.1.1 \n\n👉🏽 가위바위보, 번역추가\n\n20201222 ver.1.2 \n\n👉🏽 네이버 실시간 모든 / 현재상영 영화 순위\n\n20201224 ver.1.3 \n\n👉🏽 실시간 지하철 API 연동 \n\n20210104 ver.2.1 \n\n👉🏽 채팅방 자동읽음 기능  ')
     }
 
     if (msg.indexOf('안녕') == 0) {
         replier.reply('안녕하세요!' + sender + '님! 저는 영우봇입니다. :)\n 만나서 반가워요!')
+    }
+
+    //  채팅 자동읽음
+    if(msg){
+        replier.markAsRead();
     }
 
     // 실시간 지하철 API
@@ -80,10 +84,10 @@ function response(room, msg, sender, isGroupChat, replier, imageDB) {
     // }
 
     // 메세지가 300개면 자동으로 읽음 처리
-    if (readCount == 300) {
-        replier.reply('메세지를 자동으로 읽습니다.');
-        readCount = 0;
-    }
+    // if (readCount == 300) {
+    //     replier.reply('메세지를 자동으로 읽습니다.');
+    //     readCount = 0;
+    // }
 
     // 네이버 모든영화 평점순위
     if (msg.indexOf('/모든영화') == 0) {
@@ -170,15 +174,6 @@ function response(room, msg, sender, isGroupChat, replier, imageDB) {
             replier.reply(sender + '님이 졌습니다.');
         } else {
             replier.reply(sender + '님이 이겼습니다.');
-        }
-    }
-}
-
-// 그룹 채팅방
-function response(room, msg, sender, isGroupChat, replier, imageDB) {
-    if (isGroupChat == true) {
-        if (msg == '안녕') {
-            replier.reply(room, '안녕하세요! 저는 영우봇입니다. :)');
         }
     }
 }
