@@ -64,7 +64,7 @@ function response(room, msg, sender, isGroupChat, replier, imageDB) {
             }
             replier.reply('📍' + string + '역 검색결과\n\n' + allSee + array);
         } catch (e) {
-            replier.reply('🤖 정확한 역을 입력해주세요. 🤖')
+            replier.reply('🤖 정확한 역을 입력해주세요. 🤖');
         }
     }
 
@@ -170,11 +170,20 @@ function response(room, msg, sender, isGroupChat, replier, imageDB) {
 
         if (msg === RSP_bot) {
             replier.reply('비겼습니다.');
-        } else if (msg == '가위' && RSP_bot == '바위', msg == '보' && RSP_bot == '가위', msg == '바위' && RSP_bot == '보') {
+        } else if ((msg == '가위' && RSP_bot == '바위') || (msg == '보' && RSP_bot == '가위') || (msg == '바위' && RSP_bot == '보')) {
             replier.reply(sender + '님이 졌습니다.');
         } else {
             replier.reply(sender + '님이 이겼습니다.');
         }
     }
 }
+
+// 그룹 채팅방
+// function response(room, msg, sender, isGroupChat, replier, imageDB) {
+//     if (isGroupChat == true) {
+//         if (msg == '안녕') {
+//             replier.reply(room, '안녕하세요! 저는 영우봇입니다. :)');
+//         }
+//     }
+// }
 
