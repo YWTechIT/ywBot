@@ -68,27 +68,6 @@ function response(room, msg, sender, isGroupChat, replier, imageDB) {
         }
     }
 
-    // // 실시간검색어(실시간 순위가 `parsing` 되지 않아 미완성)
-    // if (msg.indexOf('/실검') == 0) {
-
-    //     let data = Utils.getWebText('https://datalab.naver.com/keyword/realtimeList.naver?where=main');
-    //     let twenTy = Utils.parse('https://datalab.naver.com/keyword/realtimeList.naver?age=20s&where=main');
-    //     replier.reply(twnTy);
-
-    //     // 날짜, 시간 알려주는 기능
-    //     let ymdTimeSplit = data.split('data-time="')[1].split('"')[0];
-    //     let ymdSplit = ymdTimeSplit.split('T')[0];
-    //     let timeSplit = ymdTimeSplit.split('T')[1];
-    //     let ymdTime = ymdSplit + ' ' + timeSplit + ' 기준 네이버 실시간검색어 입니다.';
-    //     replier.reply(ymdTime);
-    // }
-
-    // 메세지가 300개면 자동으로 읽음 처리
-    // if (readCount == 300) {
-    //     replier.reply('메세지를 자동으로 읽습니다.');
-    //     readCount = 0;
-    // }
-
     // 네이버 모든영화 평점순위
     if (msg.indexOf('/모든영화') == 0) {
         let parsing = org.jsoup.Jsoup.connect('https://movie.naver.com/movie/sdb/rank/rmovie.nhn?sel=pnt&date').get();
