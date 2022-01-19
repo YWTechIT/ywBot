@@ -15,9 +15,7 @@
 - 가위바위보
 - 번역기능
 - 네이버 실시간 영화순위(평점순)
-- 네이버 실시간 검색순위(`html` 미지원)
-- 실시간 지하철 현황 (<a href='https://data.seoul.go.kr/dataList/OA-15799/A/1/datasetView.do'>서울시 열린데이터 광장 - 지하철 실시간 도착정보 API</a>) (예정)
+- 실시간 지하철 현황 (<a href='https://data.seoul.go.kr/dataList/OA-15799/A/1/datasetView.do'>서울시 열린데이터 광장 - 지하철 실시간 도착정보 API</a>)
 - 실시간 따릉이 현황(예정)
 - 동네별 미세먼지 농도(예정)
 - 오늘 날씨(예정)
-  
