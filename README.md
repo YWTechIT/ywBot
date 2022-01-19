@@ -1,7 +1,11 @@
 # YW_bot
  메세지 봇과 안드로이드를 이용한 사이드 프로젝트
-
- ### ❏ 작동 원리
+ 
+### ❏ Preview
+ 
+![](https://images.velog.io/images/abcd8637/post/58e7ec21-f3b9-4de9-88a4-941d15c4d934/%E1%84%8B%E1%85%A7%E1%86%BC%E1%84%8B%E1%85%AE%E1%84%87%E1%85%A9%E1%86%BA.gif)
+ 
+### ❏ 작동 원리
 - 엔진: `Rhino JavaScript`
 - 수신: `NotificationListenerService` → 알람 `parsing` →  `wearOS(App)` → `메세지 봇` 
 - 송신: `WearableExtender` → `wearOS(App)` → `카카오톡`
