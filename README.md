@@ -3,7 +3,7 @@
  
 ### ❏ Preview
  
-![](https://images.velog.io/images/abcd8637/post/58e7ec21-f3b9-4de9-88a4-941d15c4d934/%E1%84%8B%E1%85%A7%E1%86%BC%E1%84%8B%E1%85%AE%E1%84%87%E1%85%A9%E1%86%BA.gif)
+![](https://images.velog.io/images/abcd8637/post/42387029-bafd-4215-807d-3efc813f7074/%EC%98%81%EC%9A%B0%EB%B4%87.gif)
  
 ### ❏ 작동 원리
 - 엔진: `Rhino JavaScript`
